@@ -13,12 +13,16 @@ import space.gavinklfong.insurance.quotation.models.Quotation;
 import space.gavinklfong.insurance.quotation.services.QuotationService;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = {QuotationRestController.class})
@@ -33,20 +37,48 @@ public class QuotationRestControllerTests {
     private Faker faker = new Faker();
 
     @Test
+    void fetchQuotation() throws Exception {
+
+        final String QUOTATION_CODE = "e2cfdbe6-04f5-46e0-a3ec-eb176a1528be";
+
+        when(quotationService.fetchQuotation(anyString()))
+                .thenAnswer(invocation -> {
+                            String quotationCode = (String) invocation.getArgument(0);
+
+                            return Optional.of(Quotation.builder()
+                                    .quotationCode(quotationCode)
+                                    .productCode("CAR001-004")
+                                    .amount(faker.number().randomDouble(2, 1000, 5000))
+                                    .expiryTime(LocalDateTime.now().plusDays(2))
+                                    .customerId(1l)
+                                    .build());
+                        }
+                );
+
+        mockMvc.perform(
+                get("/quotations/" + QUOTATION_CODE)
+        )
+                .andDo((print()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.quotationCode").value(QUOTATION_CODE));
+
+    }
+
+    @Test
     void generateQuotation() throws Exception {
 
         when(quotationService.generateQuotation(any(QuotationReq.class)))
                 .thenAnswer(invocation -> {
-                    QuotationReq req = (QuotationReq) invocation.getArgument(0);
+                            QuotationReq req = (QuotationReq) invocation.getArgument(0);
 
-                    return Quotation.builder()
-                            .quotationCode(UUID.randomUUID().toString())
-                            .productCode(req.getProductCode())
-                            .amount(faker.number().randomDouble(2, 1000, 5000))
-                            .expiryTime(LocalDateTime.now().plusMinutes(10))
-                            .build();
-                }
-        );
+                            return Quotation.builder()
+                                    .quotationCode(UUID.randomUUID().toString())
+                                    .productCode(req.getProductCode())
+                                    .amount(faker.number().randomDouble(2, 1000, 5000))
+                                    .expiryTime(LocalDateTime.now().plusMinutes(10))
+                                    .build();
+                        }
+                );
 
         QuotationReq req = QuotationReq.builder()
                 .postCode(faker.address().zipCode())

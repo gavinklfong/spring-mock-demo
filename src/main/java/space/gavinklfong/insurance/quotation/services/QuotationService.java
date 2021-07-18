@@ -7,11 +7,11 @@ import space.gavinklfong.insurance.quotation.apiclients.CustomerSrvClient;
 import space.gavinklfong.insurance.quotation.apiclients.ProductSrvClient;
 import space.gavinklfong.insurance.quotation.apiclients.QuotationEngineClient;
 import space.gavinklfong.insurance.quotation.dtos.QuotationEngineReq;
+import space.gavinklfong.insurance.quotation.dtos.QuotationReq;
 import space.gavinklfong.insurance.quotation.exceptions.QuotationCriteriaNotFulfilledException;
+import space.gavinklfong.insurance.quotation.exceptions.RecordNotFoundException;
 import space.gavinklfong.insurance.quotation.models.Customer;
 import space.gavinklfong.insurance.quotation.models.Product;
-import space.gavinklfong.insurance.quotation.dtos.QuotationReq;
-import space.gavinklfong.insurance.quotation.exceptions.RecordNotFoundException;
 import space.gavinklfong.insurance.quotation.models.Quotation;
 import space.gavinklfong.insurance.quotation.repositories.QuotationRepository;
 
@@ -68,6 +68,10 @@ public class QuotationService {
 
 		return quotation;
 		
+	}
+
+	public Optional<Quotation> fetchQuotation(String quotationCode) {
+		return quotationRepo.findById(quotationCode);
 	}
 
 }

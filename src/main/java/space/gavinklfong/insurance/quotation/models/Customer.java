@@ -17,5 +17,4 @@ public class Customer {
 	private String name;
 	@JsonFormat (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate dob;
-	boolean eligibleForQuotation;
 }

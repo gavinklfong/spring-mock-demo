@@ -1,0 +1,105 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Swagger Customer API"
+  },
+  "host": "localhost",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/customers/{id}": {
+      "get": {
+        "summary": "Get customer by id",
+        "description": "Get customer by id",
+        "operationId": "getCustomerById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Customer Id",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Customer"
+            }
+          },
+          "404": {
+            "description": "Customer not found"
+          }
+        }
+      }
+    },
+    "/customers": {
+      "get": {
+        "summary": "Get all customers",
+        "description": "Get all customers",
+        "operationId": "getCustomers",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Customers"
+            }
+          },
+          "404": {
+            "description": "Customer not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Customer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "name": {
+          "type": "string"
+        },
+        "dob": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "example": {
+        "id": 1,
+        "name": "John Thomas",
+        "dob": "2020-01-20"
+      }
+    },
+    "Customers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Customer"
+      },
+      "example": [
+        {"id":0,"name":"Abe Greenholt","dob":"1974-12-24"},
+        {"id":1,"name":"Alysson Witting","dob":"2004-01-05"},
+        {"id":2,"name":"Ramiro Barton","dob":"1991-04-04"},
+        {"id":3,"name":"Reagan Breitenberg","dob":"1974-10-22"},
+        {"id":4,"name":"Theodore Cartwright","dob":"1997-10-25"},
+        {"id":5,"name":"Una Maggio","dob":"1995-04-03"},
+        {"id":6,"name":"Krystina Gleason","dob":"1985-08-10"},
+        {"id":7,"name":"Cicero Grady","dob":"1965-02-21"},
+        {"id":8,"name":"Santino Gerlach","dob":"1981-12-31"},
+        {"id":9,"name":"Roman Wilderman","dob":"1994-06-30"}
+      ]
+    }
+  }
+}

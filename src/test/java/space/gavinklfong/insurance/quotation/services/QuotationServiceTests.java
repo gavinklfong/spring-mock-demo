@@ -13,11 +13,11 @@ import space.gavinklfong.insurance.quotation.apiclients.CustomerSrvClient;
 import space.gavinklfong.insurance.quotation.apiclients.ProductSrvClient;
 import space.gavinklfong.insurance.quotation.apiclients.QuotationEngineClient;
 import space.gavinklfong.insurance.quotation.dtos.QuotationEngineReq;
+import space.gavinklfong.insurance.quotation.dtos.QuotationReq;
 import space.gavinklfong.insurance.quotation.exceptions.QuotationCriteriaNotFulfilledException;
+import space.gavinklfong.insurance.quotation.exceptions.RecordNotFoundException;
 import space.gavinklfong.insurance.quotation.models.Customer;
 import space.gavinklfong.insurance.quotation.models.Product;
-import space.gavinklfong.insurance.quotation.dtos.QuotationReq;
-import space.gavinklfong.insurance.quotation.exceptions.RecordNotFoundException;
 import space.gavinklfong.insurance.quotation.models.Quotation;
 import space.gavinklfong.insurance.quotation.repositories.QuotationRepository;
 
@@ -28,7 +28,6 @@ import java.time.ZoneId;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -245,20 +244,7 @@ public class QuotationServiceTests {
                 .productCode(productCode)
                 .productClass("Online")
                 .productPlan("Home-General")
-                .buildingSumInsured(faker.number().randomNumber())
-                .contentSumInsured(faker.number().randomNumber())
-                .buildsAccidentalDamage("Optional")
-                .contentsAccidentalDamage("Optional")
-                .maxAlternativeAccoummodation(faker.number().randomNumber())
-                .matchingItems(faker.bool().bool())
-                .maxAlternativeAccoummodation(faker.number().randomNumber())
-                .maxValuables(faker.number().randomNumber())
-                .contentsInGarden(faker.number().randomNumber())
-                .theftFromOutbuildings(faker.number().randomNumber())
-                .customerAgeThreshold(70)
-                .customerAgeThresholdAdjustmentRate(1.5)
                 .postCodeInService(postCodes)
-                .postCodeDiscountRate(0.7)
                 .listedPrice(listedPrice)
                 .build());
 
