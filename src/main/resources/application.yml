@@ -1,0 +1,28 @@
+server:
+  port: 8102
+
+info:
+  app:
+    description: Quotation Service
+    name: Quotation Service
+    version: 1.0.0
+
+app:
+  customerSrvUrl: http://localhost:3000
+  productSrvUrl: http://localhost:3000
+  quotationEngineUrl: http://localhost:3000
+
+spring:
+  application:
+    name: quotation-srv
+  jpa:
+    show-sql: true
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %p %class{36}.%M - %m%n"
+  level:
+    space:
+      gavinklfong: DEBUG
