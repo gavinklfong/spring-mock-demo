@@ -22,4 +22,6 @@ public class Quotation {
 	private LocalDateTime expiryTime;
 	
 	private String productCode;
+
+	private Long customerId;
 }

@@ -1,21 +1,17 @@
 package space.gavinklfong.insurance.quotation.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import space.gavinklfong.insurance.quotation.dtos.QuotationReq;
-import space.gavinklfong.insurance.quotation.exceptions.QuotationCriteriaNotFulfilled;
+import space.gavinklfong.insurance.quotation.exceptions.QuotationCriteriaNotFulfilledException;
 import space.gavinklfong.insurance.quotation.exceptions.RecordNotFoundException;
 import space.gavinklfong.insurance.quotation.models.Quotation;
 import space.gavinklfong.insurance.quotation.services.QuotationService;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -39,7 +35,7 @@ public class QuotationRestController {
 	
 	@PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE,
 				produces=MediaType.APPLICATION_JSON_VALUE)
-	public Quotation generateQuotation(@Valid @RequestBody QuotationReq req) throws IOException, RecordNotFoundException, QuotationCriteriaNotFulfilled {
+	public Quotation generateQuotation(@Valid @RequestBody QuotationReq req) throws IOException, RecordNotFoundException, QuotationCriteriaNotFulfilledException {
 		
 		log.debug(req.toString());
 		

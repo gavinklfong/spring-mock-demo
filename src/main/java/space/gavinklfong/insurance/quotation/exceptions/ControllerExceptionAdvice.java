@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ControllerExceptionAdvice {
 
-    @ExceptionHandler({QuotationCriteriaNotFulfilled.class})
+    @ExceptionHandler({QuotationCriteriaNotFulfilledException.class})
     public final ResponseEntity<String> handleQuotationException(Exception ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }

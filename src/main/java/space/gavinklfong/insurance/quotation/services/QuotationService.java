@@ -1,15 +1,13 @@
 package space.gavinklfong.insurance.quotation.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import space.gavinklfong.insurance.quotation.apiclients.CustomerSrvClient;
 import space.gavinklfong.insurance.quotation.apiclients.ProductSrvClient;
 import space.gavinklfong.insurance.quotation.apiclients.QuotationEngineClient;
 import space.gavinklfong.insurance.quotation.dtos.QuotationEngineReq;
-import space.gavinklfong.insurance.quotation.exceptions.QuotationCriteriaNotFulfilled;
+import space.gavinklfong.insurance.quotation.exceptions.QuotationCriteriaNotFulfilledException;
 import space.gavinklfong.insurance.quotation.models.Customer;
 import space.gavinklfong.insurance.quotation.models.Product;
 import space.gavinklfong.insurance.quotation.dtos.QuotationReq;
@@ -20,8 +18,6 @@ import space.gavinklfong.insurance.quotation.repositories.QuotationRepository;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -43,7 +39,7 @@ public class QuotationService {
 	@Autowired
 	private ProductSrvClient productSrvClient;
 
-	public Quotation generateQuotation(QuotationReq request) throws IOException, RecordNotFoundException, QuotationCriteriaNotFulfilled {
+	public Quotation generateQuotation(QuotationReq request) throws IOException, RecordNotFoundException, QuotationCriteriaNotFulfilledException {
 		
 		// get customer info
 		Optional<Customer> customerOptional = customerSrvClient.getCustomer(request.getCustomerId());
@@ -53,7 +49,7 @@ public class QuotationService {
 		LocalDateTime now = LocalDateTime.now();
 		Period period = Period.between(customer.getDob(), now.toLocalDate());
 		if (period.getYears() < CUSTOMER_ELIGIBLE_AGE) {
-			throw new QuotationCriteriaNotFulfilled("customer's age < 18");
+			throw new QuotationCriteriaNotFulfilledException("customer's age < 18");
 		}
 
 		// get product spec
@@ -61,8 +57,8 @@ public class QuotationService {
 		Product product = productOptional.orElseThrow(() -> new RecordNotFoundException("Unknown product"));
 
 		// the request post code should be within the product's service scope
-		if (!Stream.of(product.getPostCodeInService()).anyMatch(s -> s.equalsIgnoreCase(request.getProductCode()))) {
-			throw new QuotationCriteriaNotFulfilled(String.format("Request post code %s is not within the scope of service", request.getPostCode()));
+		if (!Stream.of(product.getPostCodeInService()).anyMatch(s -> s.equalsIgnoreCase(request.getPostCode()))) {
+			throw new QuotationCriteriaNotFulfilledException(String.format("Request post code %s is not within the scope of service", request.getPostCode()));
 		}
 
 		QuotationEngineReq quotationEngineReq = new QuotationEngineReq(customer, product);
