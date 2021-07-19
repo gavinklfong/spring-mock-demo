@@ -95,18 +95,127 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>reserve-network-port</id>
+                        <goals>
+                            <goal>reserve-network-port</goal>
+                        </goals>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <portNames>
+                                <portName>spring-boot.http.port</portName>
+                                <portName>mock-server.http.port</portName>
+                            </portNames>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>pre-integration-test</id>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                        <configuration>
+                            <environmentVariables>
+                                <URL1>http://localhost:${mock-server.http.port}</URL1>
+                                <URL2>http://localhost:${mock-server.http.port}</URL2>
+                                <URL2>http://localhost:${mock-server.http.port}</URL2>
+                            </environmentVariables>
+                            <arguments>
+                                <argument>server.port=${spring-boot.http.port}</argument>
+<!--                                <argument>&#45;&#45;customerSrvUr=http://localhost:${mock-server.http.port}</argument>-->
+<!--                                <argument>-Dspring-boot.run.arguments=&#45;&#45;server.port=${spring-boot.http.port},&#45;&#45;customerSrvUrl=http://localhost:${mock-server.http.port},productSrvUrl=http://localhost:${mock-server.http.port},quotationEngineSrvUrl=http://localhost:${mock-server.http.port}</argument>-->
+<!--                                <argument>&#45;&#45;server.port=${spring-boot.http.port},&#45;&#45;customerSrvUrl=http://localhost:${mock-server.http.port},&#45;&#45;productSrvUrl=http://localhost:${mock-server.http.port},&#45;&#45;quotationEngineSrvUrl=http://localhost:${mock-server.http.port}</argument>-->
+<!--                                <argument>-Dspring.profiles.active=e2etest</argument>-->
+                            </arguments>
+                            <excludes>
+                                <exclude>
+                                    <groupId>org.projectlombok</groupId>
+                                    <artifactId>lombok</artifactId>
+                                </exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>post-integration-test</id>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.mock-server</groupId>
+                <artifactId>mockserver-maven-plugin</artifactId>
+                <version>5.11.2</version>
                 <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
+                    <serverPort>1080</serverPort>
+                    <logLevel>INFO</logLevel>
+                    <initializationClass>space.gavinklfong.insurance.quotation.mockserver.QuotationEngineInitialization</initializationClass>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>process-test-classes</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>verify</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
-
+    <profiles>
+        <profile>
+            <id>compile</id>
+            <properties>
+                <maven.surefire.skip>true</maven.surefire.skip>
+                <maven.failsafe.skip>true</maven.failsafe.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>no-test</id>
+            <properties>
+                <maven.surefire.skip>true</maven.surefire.skip>
+                <maven.failsafe.skip>true</maven.failsafe.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>unit-test</id>
+            <properties>
+                <maven.surefire.skip>false</maven.surefire.skip>
+                <maven.failsafe.skip>true</maven.failsafe.skip>
+                <test.groups>UnitTest</test.groups>
+            </properties>
+        </profile>
+        <profile>
+            <id>integration-test</id>
+            <properties>
+                <maven.surefire.skip>false</maven.surefire.skip>
+                <maven.failsafe.skip>true</maven.failsafe.skip>
+                <test.groups>IntegrationTest</test.groups>
+            </properties>
+        </profile>
+        <profile>
+            <id>e2e-test</id>
+            <properties>
+                <maven.surefire.skip>true</maven.surefire.skip>
+                <maven.failsafe.skip>false</maven.failsafe.skip>
+            </properties>
+        </profile>
+    </profiles>
 </project>

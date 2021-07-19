@@ -89,7 +89,7 @@ public class QuotationRestControllerTests {
         ObjectMapper mapper = new ObjectMapper();
 
         mockMvc.perform(
-                post("/quotations")
+                post("/quotations/generate")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(req))
         )

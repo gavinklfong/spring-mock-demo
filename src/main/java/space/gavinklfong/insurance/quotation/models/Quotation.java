@@ -2,7 +2,7 @@ package space.gavinklfong.insurance.quotation.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-import org.springframework.data.annotation.Id;
+import javax.persistence.Id;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "quotation")
 public class Quotation {
-	
-	@Id
+
 	@With
+	@Id
 	private String quotationCode;
 
 	private Double amount;

@@ -56,6 +56,9 @@ public class QuotationService {
 		Optional<Product> productOptional = productSrvClient.getProduct(request.getProductCode());
 		Product product = productOptional.orElseThrow(() -> new RecordNotFoundException("Unknown product"));
 
+		log.info("Retrieved product: " + product.toString());
+		log.info("Request Post Cocd: " + request.toString());
+
 		// the request post code should be within the product's service scope
 		if (!Stream.of(product.getPostCodeInService()).anyMatch(s -> s.equalsIgnoreCase(request.getPostCode()))) {
 			throw new QuotationCriteriaNotFulfilledException(String.format("Request post code %s is not within the scope of service", request.getPostCode()));

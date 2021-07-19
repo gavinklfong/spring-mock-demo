@@ -1,0 +1,7 @@
+{
+  "quotations": [
+    {"quotationCode":"7d770d89-b6f7-4900-9ef7-28f6cf7680c8","amount":3357,"expiryTime":"2021-03-17","productCode":"HOME001-001"}
+    {"quotationCode":"a99876ba-862b-42b1-90be-ef2dd722774f","amount":5850,"expiryTime":"2021-01-29","productCode":"CAR001-001"}
+    {"quotationCode":"baa5c946-5c1a-4609-8aad-9125c058b8f4","amount":7293,"expiryTime":"2021-01-21","productCode":"FIRE001-001"}
+  ]
+}

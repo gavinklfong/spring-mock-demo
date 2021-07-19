@@ -8,13 +8,16 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mockserver.client.MockServerClient;
 import org.mockserver.springtest.MockServerTest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.EntityExchangeResult;
@@ -27,38 +30,12 @@ import space.gavinklfong.insurance.quotation.dtos.QuotationReq;
 import space.gavinklfong.insurance.quotation.models.Quotation;
 
 @Slf4j
-@MockServerTest("server.url=http://localhost:${mockServerPort}")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("integrationtest")
 @Tag("IntegrationTest")
 public class QuotationRestControllerIntegrationTest {
-	
-	// Configure forex rate api client to point to mock api server
-    @TestConfiguration
-    static class TestContextConfiguration {
-    	@Bean
-    	@Primary
-    	public CustomerSrvClient customerSrvClient(@Value("${customerSrvUrl.url}") String url) {
-    		return new CustomerSrvClient(url);
-    	}
-
-		@Bean
-		@Primary
-		public ProductSrvClient productSrvClient(@Value("${productSrvUrl.url}") String url) {
-			return new ProductSrvClient(url);
-		}
-
-		@Bean
-		@Primary
-		public QuotationEngineClient quotationEngineClient(@Value("${quotationEngineSrvUrl.url}") String url) {
-			return new QuotationEngineClient(url);
-		}
-    }
 
 	private Faker faker = new Faker();
 
-	private MockServerClient mockServerClient;
-	
 	WebTestClient webTestClient;
 
 	@LocalServerPort
@@ -76,13 +53,12 @@ public class QuotationRestControllerIntegrationTest {
 		QuotationReq quotationReq = QuotationReq.builder()
 				.postCode("SW20")
 				.customerId(1l)
-				.productCode("CAR01-001")
+				.productCode("CAR001-01")
 				.build();
 
 		webTestClient.post()
 				.uri("/quotations/generate")
 				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
 				.body(Mono.just(quotationReq), QuotationReq.class)
 				.exchange()
 				.expectStatus().isOk()

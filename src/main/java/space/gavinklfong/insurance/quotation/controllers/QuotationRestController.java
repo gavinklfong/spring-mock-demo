@@ -36,7 +36,7 @@ public class QuotationRestController {
 	}
 	
 	
-	@PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE,
+	@PostMapping(value={"/generate"}, consumes=MediaType.APPLICATION_JSON_VALUE,
 				produces=MediaType.APPLICATION_JSON_VALUE)
 	public Quotation generateQuotation(@Valid @RequestBody QuotationReq req) throws IOException, RecordNotFoundException, QuotationCriteriaNotFulfilledException {
 		return quotationService.generateQuotation(req);

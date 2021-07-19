@@ -8,9 +8,9 @@ info:
     version: 1.0.0
 
 app:
-  customerSrvUrl: http://localhost:3001
-  productSrvUrl: http://localhost:3002
-  quotationEngineUrl: http://localhost:3003
+  customerSrvUrl: http://localhost:1080
+  productSrvUrl:  http://localhost:1080
+  quotationEngineSrvUrl: http://localhost:1080
   quotationRepoUrl: http://localhost:3004
 
 spring:

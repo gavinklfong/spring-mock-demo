@@ -89,7 +89,6 @@
         "$ref": "#/definitions/Customer"
       },
       "example": [
-        {"id":0,"name":"Abe Greenholt","dob":"1974-12-24"},
         {"id":1,"name":"Alysson Witting","dob":"2004-01-05"},
         {"id":2,"name":"Ramiro Barton","dob":"1991-04-04"},
         {"id":3,"name":"Reagan Breitenberg","dob":"1974-10-22"},
@@ -98,7 +97,8 @@
         {"id":6,"name":"Krystina Gleason","dob":"1985-08-10"},
         {"id":7,"name":"Cicero Grady","dob":"1965-02-21"},
         {"id":8,"name":"Santino Gerlach","dob":"1981-12-31"},
-        {"id":9,"name":"Roman Wilderman","dob":"1994-06-30"}
+        {"id":9,"name":"Roman Wilderman","dob":"1994-06-30"},
+        {"id":10,"name":"Abe Greenholt","dob":"1974-12-24"}
       ]
     }
   }
