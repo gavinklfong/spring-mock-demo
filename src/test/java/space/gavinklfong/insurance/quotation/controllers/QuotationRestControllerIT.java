@@ -32,7 +32,7 @@ import space.gavinklfong.insurance.quotation.models.Quotation;
 @Slf4j
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @Tag("IntegrationTest")
-public class QuotationRestControllerIntegrationTest {
+public class QuotationRestControllerIT {
 
 	private Faker faker = new Faker();
 

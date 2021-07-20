@@ -162,15 +162,15 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>process-test-classes</id>
-                        <phase>process-test-classes</phase>
+                        <id>pre-integration-test</id>
+                        <phase>pre-integration-test</phase>
                         <goals>
                             <goal>start</goal>
                         </goals>
                     </execution>
                     <execution>
-                        <id>verify</id>
-                        <phase>verify</phase>
+                        <id>post-integration-test</id>
+                        <phase>post-integration-test</phase>
                         <goals>
                             <goal>stop</goal>
                         </goals>
