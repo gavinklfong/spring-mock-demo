@@ -123,17 +123,13 @@
                             <goal>start</goal>
                         </goals>
                         <configuration>
-                            <environmentVariables>
+                            <systemPropertyVariables>
                                 <URL1>http://localhost:${mock-server.http.port}</URL1>
                                 <URL2>http://localhost:${mock-server.http.port}</URL2>
                                 <URL2>http://localhost:${mock-server.http.port}</URL2>
-                            </environmentVariables>
+                            </systemPropertyVariables>
                             <arguments>
-                                <argument>server.port=${spring-boot.http.port}</argument>
-<!--                                <argument>&#45;&#45;customerSrvUr=http://localhost:${mock-server.http.port}</argument>-->
-<!--                                <argument>-Dspring-boot.run.arguments=&#45;&#45;server.port=${spring-boot.http.port},&#45;&#45;customerSrvUrl=http://localhost:${mock-server.http.port},productSrvUrl=http://localhost:${mock-server.http.port},quotationEngineSrvUrl=http://localhost:${mock-server.http.port}</argument>-->
-<!--                                <argument>&#45;&#45;server.port=${spring-boot.http.port},&#45;&#45;customerSrvUrl=http://localhost:${mock-server.http.port},&#45;&#45;productSrvUrl=http://localhost:${mock-server.http.port},&#45;&#45;quotationEngineSrvUrl=http://localhost:${mock-server.http.port}</argument>-->
-<!--                                <argument>-Dspring.profiles.active=e2etest</argument>-->
+                                <argument>--server.port=${spring-boot.http.port}</argument>
                             </arguments>
                             <excludes>
                                 <exclude>
@@ -150,6 +146,15 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <systemPropertyVariables>
+                        <test.server.port>${spring-boot.http.port}</test.server.port>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.mock-server</groupId>

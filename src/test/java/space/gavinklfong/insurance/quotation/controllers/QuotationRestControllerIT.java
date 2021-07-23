@@ -29,8 +29,9 @@ import space.gavinklfong.insurance.quotation.apiclients.QuotationEngineClient;
 import space.gavinklfong.insurance.quotation.dtos.QuotationReq;
 import space.gavinklfong.insurance.quotation.models.Quotation;
 
+import java.time.Duration;
+
 @Slf4j
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @Tag("IntegrationTest")
 public class QuotationRestControllerIT {
 
@@ -38,12 +39,12 @@ public class QuotationRestControllerIT {
 
 	WebTestClient webTestClient;
 
-	@LocalServerPort
-	private int port;
-
 	@BeforeEach
 	void setUp() {
-		webTestClient = WebTestClient.bindToServer().baseUrl("http://localhost:" + port).build();
+		String port = System.getProperty("test.server.port");
+		webTestClient = WebTestClient.bindToServer().baseUrl("http://localhost:" + port)
+				.responseTimeout(Duration.ofSeconds(15))
+				.build();
 	}
 
 	@Test
@@ -65,19 +66,4 @@ public class QuotationRestControllerIT {
 				.expectBody(Quotation.class);
 	}
 
-//	@Test
-//	public void givenQuotationExists_fetchQuotation() throws Exception {
-//
-//		final String QUOTATION_CODE = "e2cfdbe6-04f5-46e0-a3ec-eb176a1528be";
-//
-//		webTestClient.get()
-//		.uri(uriBuilder -> uriBuilder
-//				.path("/quotations/" + QUOTATION_CODE)
-//				.build()
-//				)
-//		.accept(MediaType.APPLICATION_JSON)
-//		.exchange()
-//		.expectStatus().isOk();
-//	}
-	
 }
