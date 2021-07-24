@@ -103,13 +103,39 @@
                         <goals>
                             <goal>reserve-network-port</goal>
                         </goals>
-                        <phase>process-resources</phase>
+                        <phase>pre-integration-test</phase>
                         <configuration>
                             <portNames>
                                 <portName>spring-boot.http.port</portName>
                                 <portName>mock-server.http.port</portName>
                             </portNames>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.mock-server</groupId>
+                <artifactId>mockserver-maven-plugin</artifactId>
+                <version>5.11.2</version>
+                <configuration>
+                    <serverPort>${mock-server.http.port}</serverPort>
+                    <logLevel>INFO</logLevel>
+                    <initializationClass>space.gavinklfong.insurance.quotation.mockserver.QuotationMockServerInitialization</initializationClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>pre-integration-test</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>post-integration-test</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -123,13 +149,11 @@
                             <goal>start</goal>
                         </goals>
                         <configuration>
-                            <systemPropertyVariables>
-                                <URL1>http://localhost:${mock-server.http.port}</URL1>
-                                <URL2>http://localhost:${mock-server.http.port}</URL2>
-                                <URL2>http://localhost:${mock-server.http.port}</URL2>
-                            </systemPropertyVariables>
                             <arguments>
                                 <argument>--server.port=${spring-boot.http.port}</argument>
+                                <argument>--app.customerSrvUrl=http://localhost:${mock-server.http.port}</argument>
+                                <argument>--app.productSrvUrl=http://localhost:${mock-server.http.port}</argument>
+                                <argument>--app.quotationEngineSrvUrl=http://localhost:${mock-server.http.port}</argument>
                             </arguments>
                             <excludes>
                                 <exclude>
@@ -155,32 +179,6 @@
                         <test.server.port>${spring-boot.http.port}</test.server.port>
                     </systemPropertyVariables>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.mock-server</groupId>
-                <artifactId>mockserver-maven-plugin</artifactId>
-                <version>5.11.2</version>
-                <configuration>
-                    <serverPort>1080</serverPort>
-                    <logLevel>INFO</logLevel>
-                    <initializationClass>space.gavinklfong.insurance.quotation.mockserver.QuotationEngineInitialization</initializationClass>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>pre-integration-test</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>start</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>post-integration-test</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>stop</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

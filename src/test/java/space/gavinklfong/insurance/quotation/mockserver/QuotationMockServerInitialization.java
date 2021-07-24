@@ -9,7 +9,7 @@ import org.mockserver.server.initialize.ExpectationInitializer;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
-public class QuotationEngineInitialization implements PluginExpectationInitializer {
+public class QuotationMockServerInitialization implements PluginExpectationInitializer {
 
     @Override
     public void initializeExpectations(MockServerClient mockServerClient) {

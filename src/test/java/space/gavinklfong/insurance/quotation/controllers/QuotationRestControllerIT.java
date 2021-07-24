@@ -35,8 +35,6 @@ import java.time.Duration;
 @Tag("IntegrationTest")
 public class QuotationRestControllerIT {
 
-	private Faker faker = new Faker();
-
 	WebTestClient webTestClient;
 
 	@BeforeEach
@@ -50,7 +48,7 @@ public class QuotationRestControllerIT {
 	@Test
 	public void givenEverythingPassed_generateQuotation() throws Exception {
 
-		// fire request to book rate and verify the response
+		// fire request to quotation and verify the response
 		QuotationReq quotationReq = QuotationReq.builder()
 				.postCode("SW20")
 				.customerId(1l)

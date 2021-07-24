@@ -1,6 +1,7 @@
 package space.gavinklfong.insurance.quotation.apiclients;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import space.gavinklfong.insurance.quotation.models.Customer;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Component
 public class CustomerSrvClient {
 

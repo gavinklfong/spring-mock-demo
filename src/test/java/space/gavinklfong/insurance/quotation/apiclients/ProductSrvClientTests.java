@@ -33,7 +33,7 @@ public class ProductSrvClientTests {
 
         final String PRODUCT_CODE = "CAR001-01";
 
-        // Setup request matcher and response using OpenAPI definition
+        // Setup request matcher and response using MockServerClient API
         mockServerClient
                 .when(
                         request()
