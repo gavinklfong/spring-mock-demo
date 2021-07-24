@@ -26,10 +26,10 @@ The Quotation API orchestrates external APIs - Customer, Product and Quotation E
 ## System Component
 API clients are responsible for the integration with external APIs. 
 
-![Component Diagram](https://raw.githubusercontent.com/gavinklfong/spring-mock-demo/master/blob/Quotation_API.png?raw=true)
+![Component Diagram](https://raw.githubusercontent.com/gavinklfong/spring-mock-demo/master/blob/Quotation_API.jpg?raw=true)
 
 
 ## Maven Lifecycle for Test Execution
 Maven lifecycle manages the test execution and initialization of MockServer. Refer to pom.xml for the detailed configuration.
 
-![Maven Lifecycle](https://raw.githubusercontent.com/gavinklfong/spring-mock-demo/master/blob/Maven_Lifecycle.png?raw=true)
+![Maven Lifecycle](https://raw.githubusercontent.com/gavinklfong/spring-mock-demo/master/blob/Maven_Lifecycle.jpg?raw=true)
